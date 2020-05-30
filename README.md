@@ -7,6 +7,7 @@ First, know the limitations of the NSFs you can use.
 - The NSF may not use bankswitching.
 - The NSF may not use expansion sound.
 - There must be at least one free page of memory for the 6502 driver code.
+
 If any of these conditions are not satisfied, an error message will be printed and no ROM will be written.
 
 Usage is nothing more than `nsf2nes nsffile`. If everything went well, an NES ROM will be created with the same filename as the NSF with `.nes` appended to it.

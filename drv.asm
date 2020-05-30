@@ -82,13 +82,14 @@ main    lda nmiflag
         and rawjoy
         tay
         ldx tuneid
-        bit joyinc
+        and #$29
         beq +
         inx
         cpx #maxtune
         bcc +
         ldx #0
-+       bit joydec
++       tya
+        and #$06
         beq ++
         txa
         bne +
@@ -112,10 +113,6 @@ readjoy ldx #1
         bcc -
         rts
         
-joyinc  .byte $29
-joydec  .byte $06
-
-
         
         
         .here

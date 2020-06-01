@@ -10,7 +10,7 @@ First, know the limitations of the NSFs you can use.
 
 If any of these conditions are not satisfied, an error message will be printed and no ROM will be written.
 
-Usage is nothing more than `nsf2nes nsffile`. If everything went well, an NES ROM will be created with the same filename as the NSF with `.nes` appended to it.
+Usage is nothing more than `nsf2nes [nsffile]...`. If everything went well, NES ROMs will be created with the same filename as the NSFs with `.nes` appended to it.
 
 When you load the ROM, use the D-Pad to step through songs and any other button to restart the current one.
 

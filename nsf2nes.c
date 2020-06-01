@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         if (memcmp(inbuf, "NESM\x1a", sizeof("NESM\x1a")-1))
         {
             puts("Not an NSF");
-            continue;
+            goto fail;
         }
         int errcnt = 0;
         if (*(inbuf+5) != 1)
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
             errcnt++;
         }
         if (errcnt)
-            continue;
+            goto fail;
         
         uint16_t load = *(inbuf+8) | (*(inbuf+9) << 8);
         uint32_t end = load + (insize-0x80)-1;
@@ -80,17 +80,17 @@ int main(int argc, char *argv[])
         if (load < 0x8000 || load >= 0xfffa)
         {
             puts("Illegal load address");
-            continue;
+            goto fail;
         }
         if (end >= 0x10000)
         {
             puts("NSF data is too long");
-            continue;
+            goto fail;
         }
         else if ((load < (0x8000 | driversize)) && (end >= 0xff00))
         {
             puts("No free space for driver");
-            continue;
+            goto fail;
         }
         else if (end >= 0xfffa)
             puts("Warning: NSF data passes $FFFA. This will be overwritten!");
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
         if (init < load || init > end)
         {
             puts("Illegal init address");
-            continue;
+            goto fail;
         }
         uint8_t songs = *(inbuf+6);
         uint8_t defsong = *(inbuf+7);
@@ -108,12 +108,12 @@ int main(int argc, char *argv[])
         if (!songs)
         {
             puts("Illegal amount of songs");
-            continue;
+            goto fail;
         }
         if (!defsong || defsong > songs)
         {
             puts("Illegal default song");
-            continue;
+            goto fail;
         }
         
         uint8_t driverpage;
@@ -147,7 +147,6 @@ int main(int argc, char *argv[])
             memcpy(outbuf + 0x10 + (load&0x7fff), inbuf+0x80, insize-0x80);
         else
             memcpy(outbuf + 0x10 + (load&0x3fff), inbuf+0x80, insize-0x80);
-        free(inbuf);
         *(outbuf+0) = 'N'; /* iNES header */
         *(outbuf+1) = 'E';
         *(outbuf+2) = 'S';
@@ -200,6 +199,8 @@ int main(int argc, char *argv[])
         FILE* outfile = fopen(strcat(argv[arg], ".nes"), "wb");
         fwrite(outbuf, 1, bufsize, outfile);
         fclose(outfile);
+        free(outbuf);
+fail:   free(inbuf);
     }
     
     

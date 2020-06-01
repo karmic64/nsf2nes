@@ -154,10 +154,12 @@ int main(int argc, char *argv[])
         *(outbuf+4) = romsize+1;
         for (uint8_t *p = outbuf+5; p < outbuf+0x10; p++)
             *p = 0;
-        *(outbuf+bufsize-6) = 0x00; /* nmi = $xx00, reset = $xx04 */
+        *(outbuf+bufsize-6) = 0x00; /* nmi = $xx00, reset = $xx07, irq = $xx03 */
         *(outbuf+bufsize-5) = driverpage;
-        *(outbuf+bufsize-4) = 0x04;
+        *(outbuf+bufsize-4) = 0x07;
         *(outbuf+bufsize-3) = driverpage;
+        *(outbuf+bufsize-2) = 0x03;
+        *(outbuf+bufsize-1) = driverpage;
         
         uint8_t *driverdest = outbuf + 0x10 + ((driverpage & (romsize ? 0x7f : 0x3f)) << 8);
         for (int i = 0; i < driversize; i++)

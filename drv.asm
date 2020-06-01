@@ -13,6 +13,10 @@ deftune = $45
         
         .logical $4100
         inc nmiflag
+        
+        plp
+        sei
+        php
         rti
         
         

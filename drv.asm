@@ -44,20 +44,16 @@ deftune = $45
         lda #deftune
         sta tuneid
         
-clear   lda #7
-        sta 1
-        lda #0
-        sta $4015
-        sta $4017
-        tay
-        sta 0
+clear   ldy #0
+        sty $4015
+        sty $4017
+        sty 0
+        lda #2
         ldx #6
--       sta (0),y
-        iny
-        bne -
-        dec 1
-        dex
-        bne -
+        jsr clrmem
+        lda #$60
+        ldx #$20
+        jsr clrmem
 -       sta 0,x
         sta @wstack-$ff,x
         inx
@@ -117,6 +113,16 @@ readjoy ldx #1
         bcc -
         rts
         
+        
+clrmem  sta 1
+        tya
+-       sta (0),y
+        iny
+        bne -
+        inc 1
+        dex
+        bne -
+        rts
         
         
         .here

@@ -29,14 +29,14 @@ int main(int argc, char *argv[])
     for (int arg = 1; arg < argc; arg++)
     {
         if (arg > 1) putchar('\n');
-        printf("Reading %s\n", argv[arg]);
         
         FILE* infile = fopen(argv[arg], "rb");
         if (!infile)
         {
-            perror("Could not open file");
+            printf("Could not open %s: %s\n", argv[arg], strerror(errno));
             continue;
         }
+        printf("Reading %s\n", argv[arg]);
         fseek(infile, 0, SEEK_END);
         size_t insize = ftell(infile);
         if (insize < 0x81)

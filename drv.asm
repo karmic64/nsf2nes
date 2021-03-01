@@ -67,7 +67,7 @@ clear   ldy #0
 main    lda nmiflag
         cmp nmiflag
         beq *-3
-        jsr play
+ff      jsr play
         
         ldy rawjoy
         jsr readjoy
@@ -77,12 +77,14 @@ main    lda nmiflag
         pla
         cmp rawjoy
         bne -
+        and #$20
+        bne ff
         tya
         eor #$ff
         and rawjoy
         tay
         ldx tuneid
-        and #$29
+        and #$09
         beq +
         inx
         cpx #maxtune

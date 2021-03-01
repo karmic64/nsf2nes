@@ -12,11 +12,11 @@ If any of these conditions are not satisfied, an error message will be printed a
 
 Usage is nothing more than `nsf2nes [nsffile]...`. If everything went well, NES ROMs will be created with the same filename as the NSFs with `.nes` appended to it.
 
-When you load the ROM, use the D-Pad to step through songs and any other button to restart the current one.
+When you load the ROM, use the D-Pad to step through songs, Select to fast-forward, and any other button to restart the current one.
 
 
 ## Build info
-If you want to modify the driver, it's in [64tass](http://tass64.sourceforge.net) syntax. `64tass -f -o drv.bin drv.asm` to assemble it. Keep it under 250 bytes.
+If you want to modify the driver, it's in [64tass](http://tass64.sourceforge.net) syntax. Keep it under 250 bytes.
 
 The method I use of including the driver in the executable might be incompatible with some compilers. If you have any problems, please contact me.
 
